@@ -8,7 +8,7 @@ public class TileManage : MonoBehaviour
     private GameObject[] placeholderTile;
     Vector3 pos;
 
-    Vector3 nw = new Vector3(-0.5f, .5f, 0);
+    Vector3 nw = new Vector3(-1f, 1f, 0);
     Vector3 ne = new Vector3(0.5f, .5f, 0);
     Vector3 sw = new Vector3(0.5f, -.5f, 0);
     Vector3 se = new Vector3(0.5f, -.5f, 0);
@@ -31,12 +31,12 @@ public class TileManage : MonoBehaviour
 
         if (Physics.Raycast(this.transform.position, transform.TransformDirection(nw), out hit, Mathf.Infinity, layerMask))
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            Debug.DrawRay(transform.position, transform.TransformDirection(nw) * hit.distance, Color.yellow);
             Debug.Log("Did Hit");
         }
         else
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
+            Debug.DrawRay(transform.position, transform.TransformDirection(nw) * 1000, Color.white);
             Debug.Log("Did not Hit");
         }
     }
