@@ -26,17 +26,17 @@ public class TileManage : MonoBehaviour
 
     void Update()
     {
-        int layerMask = 1 << 8;
+        int layerMask = 8;
         RaycastHit hit;
 
         if (Physics.Raycast(this.transform.position, transform.TransformDirection(nw), out hit, Mathf.Infinity, layerMask))
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(nw) * hit.distance, Color.white);
+            Debug.DrawRay(transform.position, transform.TransformDirection(nw) * hit.distance, Color.green);
             Debug.Log("Did Hit");
         }
         else
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(nw) * 1000, Color.red);
+            Debug.DrawRay(transform.position, transform.TransformDirection(nw) * 1, Color.red);
             Debug.Log("Did not Hit");
         }
     }
