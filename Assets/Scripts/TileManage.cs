@@ -7,6 +7,7 @@ public class TileManage : MonoBehaviour
     public GameObject tile;
     private GameObject[] placeholderTile;
     Vector3 pos;
+    Rigidbody2D rb;
 
     Vector2 nw = new Vector2(-.5f, .5f);
     Vector3 ne = new Vector3(0.5f, .5f, 0);
@@ -16,6 +17,7 @@ public class TileManage : MonoBehaviour
     void Start()
     {
         tile = this.gameObject;
+        rb = GetComponent<Rigidbody2D>();
 
     }
 
@@ -26,7 +28,7 @@ public class TileManage : MonoBehaviour
 
     void Update()
     {
-        int layerMask = 8;
+        /*int layerMask = 8;
         RaycastHit hit;
 
         if (Physics.Raycast(this.transform.position, transform.TransformDirection(nw), out hit, Mathf.Infinity, layerMask))
@@ -38,7 +40,9 @@ public class TileManage : MonoBehaviour
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(nw) * 1, Color.red);
             Debug.Log("Did not Hit");
-        }
+        }*/
+
+
     }
 
     void OnMouseDown()
