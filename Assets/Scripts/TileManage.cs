@@ -5,24 +5,34 @@ using UnityEngine;
 public class TileManage : MonoBehaviour
 {
     public GameObject tile;
-    private GameObject[] placeholderTile;
     Vector3 pos;
     Rigidbody2D rb;
 
-    Vector2 nw = new Vector2(-.5f, .5f);
-    Vector3 ne = new Vector3(0.5f, .5f, 0);
-    Vector3 sw = new Vector3(0.5f, -.5f, 0);
-    Vector3 se = new Vector3(0.5f, -.5f, 0);
+    /*
+          NW        NE
+            \      /
+              \  /
+              /  \
+            /      \
+          SW        SE
+    */
+
+    Vector2 nw = new Vector2(-1, 1);
+    Vector2 ne = new Vector2(1, 1);
+    Vector2 sw = new Vector2(-1, -1);
+    Vector2 se = new Vector2(1, -1);
 
     private int TileLayer;
     private bool CastRays = true;
+
+    public Sprite[] phSprites;
 
     void Start()
     {
         tile = this.gameObject;
         rb = GetComponent<Rigidbody2D>();
         TileLayer = LayerMask.NameToLayer("TileLayer");
-
+        
     }
 
     void FixedUpdate()
@@ -32,42 +42,84 @@ public class TileManage : MonoBehaviour
 
     void Update()
     {
-        /*int layerMask = 8;
+        RaycastHit2D hitNW = Physics2D.Raycast(this.transform.position, nw);
+        RaycastHit2D hitNE = Physics2D.Raycast(this.transform.position, ne);
+        RaycastHit2D hitSW = Physics2D.Raycast(this.transform.position, sw);
+        RaycastHit2D hitSE = Physics2D.Raycast(this.transform.position, se);
+
+        if (hitNW.collider == null)
+        {
+            ChangeSprite(phSprites[1]);
+        }
+
+        if (hitNE.collider == null)
+        {
+            ChangeSprite(phSprites[2]);
+        }
+
+        if (hitSE.collider == null)
+        {
+            ChangeSprite(phSprites[3]);
+        }
+
+        if (hitSW.collider == null)
+        {
+            ChangeSprite(phSprites[4]);
+        }
+
+        if (hitSE.collider == null)
+        {
+            ChangeSprite(phSprites[3]);
+        }
+
+        if (hitNW.collider == null && hitNE.collider == null)
+        {
+            ChangeSprite(phSprites[5]);
+        }
+
+        if (hitNE.collider == null && hitSE.collider == null)
+        {
+            ChangeSprite(phSprites[6]);
+        }
+
+        if (hitSW.collider == null && hitSE.collider == null)
+        {
+            ChangeSprite(phSprites[7]);
+        }
+
+        if (hitNW.collider == null && hitSW.collider == null)
+        {
+            ChangeSprite(phSprites[8]);
+        }
+
+        if (hitNE.collider == null && hitSE.collider == null)
+        {
+            ChangeSprite(phSprites[9]);
+        }
+
+
+
+        if (hitNW.collider == null && hitSW.collider == null && hitNE.collider == null && hitSE.collider == null)
+        {
+            ChangeSprite(phSprites[13]);
+        }
+
+        
+
+        /*
         RaycastHit hit;
 
-        if (Physics.Raycast(this.transform.position, transform.TransformDirection(nw), out hit, Mathf.Infinity, layerMask))
+        if (Physics2D.Raycast(this.transform.position, nw, out hit, 1))
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(nw) * hit.distance, Color.green);
-            Debug.Log("Did Hit");
-        }
-        else
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(nw) * 1, Color.red);
-            Debug.Log("Did not Hit");
+
         }*/
 
-        //////////////////////
-        /*
 
-        RaycastHit2D hitNW = Physics2D.Raycast(this.transform.position, nw);
+    }
 
-        if (hitNW.collider.gameObject.layer == 8)
-        {
-            Debug.Log("Atingiu algo.");
-        } else
-        {
-            Debug.Log("Atingiu algo.");
-        }*/
-
-        if(CastRays)
-        {
-            RaycastHit hit;
-
-            if (Physics.Raycast(this.transform.position, out hit, .5f))
-            {
-
-            }
-        }
+    void ChangeSprite (Sprite tileSprite)
+    {
+        tile.GetComponent<SpriteRenderer>().sprite = tileSprite;
     }
 
     void OnMouseDown()
