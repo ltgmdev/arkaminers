@@ -5,27 +5,28 @@ using UnityEngine;
 
 public class TileGenerator : MonoBehaviour
 {    
-    public GameObject tileTypeA;
-    public GameObject tileTypeQ;
+    public GameObject tileTypeLos;
+    public GameObject tileTypeTri;
     float positioningHor;
     float positioningVer;
     bool has8tiles;
 
     void Start()
     {
+        /* OLD GENERATOR
         positioningHor = 0f;
         positioningVer = 5f;
 
         //normal tiles (start)
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 7; i++)
         {
             if (i % 2 == 0)
             {
-                positioningHor = (-2.81f);
+                positioningHor = (-2.815f);
                 has8tiles = false;
             } else
             {
-                positioningHor = (-2.46f);
+                positioningHor = (-2.413f);
                 has8tiles = true;
             }
 
@@ -43,7 +44,7 @@ public class TileGenerator : MonoBehaviour
                     TileLineSpawner();
                 }
             }
-            positioningVer -= 0.35f;           
+            positioningVer -= 0.425f;           
         }
 
         // starting tiles only
@@ -53,9 +54,13 @@ public class TileGenerator : MonoBehaviour
 
         for (int i = 0; i < 8; i++)
         {
-            Instantiate(tileTypeQ, new Vector3(positioningHor, positioningVer, -4), Quaternion.identity);
-            positioningHor += 0.7f;
+            Instantiate(tileTypeTri, new Vector3(positioningHor, positioningVer, -4), Quaternion.identity);
+            positioningHor += 0.804f;
         }
+
+        OLD GENERATOR*/
+
+
 
     }
 
@@ -66,9 +71,9 @@ public class TileGenerator : MonoBehaviour
         
     }
 
-    void TileLineSpawner() 
+    void LosTileLineSpawner() 
     {
-        Instantiate(tileTypeA, new Vector3(positioningHor, positioningVer, -4), Quaternion.identity);
+        Instantiate(tileTypeLos, new Vector3(positioningHor, positioningVer, -4), Quaternion.identity);
         positioningHor += 0.7f;
     }
 

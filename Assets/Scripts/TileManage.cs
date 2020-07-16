@@ -5,7 +5,6 @@ using UnityEngine;
 public class TileManage : MonoBehaviour
 {
     public GameObject tile;
-    Vector3 pos;
     Rigidbody2D rb;
 
     /*
@@ -31,8 +30,7 @@ public class TileManage : MonoBehaviour
     {
         tile = this.gameObject;
         rb = GetComponent<Rigidbody2D>();
-        TileLayer = LayerMask.NameToLayer("TileLayer");
-        
+        TileLayer = LayerMask.NameToLayer("TileLayer");        
     }
 
     void FixedUpdate()
@@ -42,11 +40,11 @@ public class TileManage : MonoBehaviour
 
     void Update()
     {
-        RaycastHit2D hitNW = Physics2D.Raycast(this.transform.position, nw);
-        RaycastHit2D hitNE = Physics2D.Raycast(this.transform.position, ne);
-        RaycastHit2D hitSW = Physics2D.Raycast(this.transform.position, sw);
-        RaycastHit2D hitSE = Physics2D.Raycast(this.transform.position, se);
-
+        RaycastHit2D hitNW = Physics2D.Raycast(this.transform.position, nw, .4f);
+        RaycastHit2D hitNE = Physics2D.Raycast(this.transform.position, ne, .4f);
+        RaycastHit2D hitSW = Physics2D.Raycast(this.transform.position, sw, .4f);
+        RaycastHit2D hitSE = Physics2D.Raycast(this.transform.position, se, .4f);     
+        
         if (hitNW.collider == null)
         {
             ChangeSprite(phSprites[1]);
@@ -59,17 +57,23 @@ public class TileManage : MonoBehaviour
 
         if (hitSE.collider == null)
         {
-            ChangeSprite(phSprites[3]);
-        }
+            if (hitNW.collider == null)
+            {
+                ChangeSprite(phSprites[14]);
+            } else {
+                ChangeSprite(phSprites[3]);
+            }        
+        }   
 
         if (hitSW.collider == null)
         {
-            ChangeSprite(phSprites[4]);
-        }
-
-        if (hitSE.collider == null)
-        {
-            ChangeSprite(phSprites[3]);
+            if (hitNE.collider == null)
+            {
+                ChangeSprite(phSprites[15]);
+            }
+            else {
+                ChangeSprite(phSprites[4]);
+            }
         }
 
         if (hitNW.collider == null && hitNE.collider == null)
@@ -92,29 +96,29 @@ public class TileManage : MonoBehaviour
             ChangeSprite(phSprites[8]);
         }
 
-        if (hitNE.collider == null && hitSE.collider == null)
+        if (hitNE.collider == null && hitSE.collider == null && hitNW.collider == null)
         {
             ChangeSprite(phSprites[9]);
         }
 
-
+        if (hitNE.collider == null && hitSE.collider == null && hitSW.collider == null)
+        {
+            ChangeSprite(phSprites[10]);
+        }
+        if (hitNW.collider == null && hitSE.collider == null && hitSW.collider == null)
+        {
+            ChangeSprite(phSprites[11]);
+        }
+        if (hitNW.collider == null && hitNE.collider == null && hitSW.collider == null)
+        {
+            ChangeSprite(phSprites[12]);
+        }
 
         if (hitNW.collider == null && hitSW.collider == null && hitNE.collider == null && hitSE.collider == null)
         {
             ChangeSprite(phSprites[13]);
-        }
-
-        
-
-        /*
-        RaycastHit hit;
-
-        if (Physics2D.Raycast(this.transform.position, nw, out hit, 1))
-        {
-
-        }*/
-
-
+        } 
+           
     }
 
     void ChangeSprite (Sprite tileSprite)
@@ -125,7 +129,6 @@ public class TileManage : MonoBehaviour
     void OnMouseDown()
     {
         Destroy(this.gameObject);
-        pos = this.transform.position;
     }
 
    /* IEnumerator BorderManager()
