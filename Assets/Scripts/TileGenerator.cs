@@ -4,77 +4,104 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TileGenerator : MonoBehaviour
-{    
+{
     public GameObject tileTypeLos;
     public GameObject tileTypeTri;
-    float positioningHor;
-    float positioningVer;
-    bool has8tiles;
+    public GameObject tilingGameObject;
+    public GameObject tritilingGameObject;
+
+    //GameObject line1, line2, line3, line4, line5, line6, line7, line8;
+    [SerializeField] GameObject[] lines;
+
+    public Camera cam;
+
+    float posHor;
+    float posVer;
+    bool has7tiles;
+    bool control = true;
 
     void Start()
     {
-        /* OLD GENERATOR
-        positioningHor = 0f;
-        positioningVer = 5f;
+        cam = Camera.main;
+        Vector3 upperLeftScreen = new Vector3(0, Screen.height, -4);
+        Vector3 initialPos = cam.ScreenToWorldPoint(upperLeftScreen);
+
+        SpriteRenderer tileLos = tileTypeLos.GetComponent<SpriteRenderer>();
+        float widthTileLos = tileLos.bounds.size.x;
+        float heightTileLos = tileLos.bounds.size.y;
+
+        SpriteRenderer tileTri = tileTypeTri.GetComponent<SpriteRenderer>();
+        float widthTileTri = tileTri.bounds.size.x;
+        //float heightTileTri = tileTri.bounds.size.y;      
 
         //normal tiles (start)
+
+        posVer = initialPos.y;
         for (int i = 0; i < 7; i++)
         {
+            
             if (i % 2 == 0)
             {
-                positioningHor = (-2.815f);
-                has8tiles = false;
-            } else
-            {
-                positioningHor = (-2.413f);
-                has8tiles = true;
-            }
-
-            if (has8tiles)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    TileLineSpawner();
-                }
+                has7tiles = false;
             }
             else
             {
-                for (int j = 0; j < 9; j++)
+                has7tiles = true;
+            }
+
+            if (has7tiles)
+            {   //lines 2, 4, 6...
+                posHor = initialPos.x + (widthTileLos / 2) ;               
+                for (int j = 0; j < 7; j++)
                 {
-                    TileLineSpawner();
+                    Instantiate(tileTypeLos, new Vector3(posHor, posVer, -4), Quaternion.identity, lines[i].transform);
+                    posHor += widthTileLos;
                 }
             }
-            positioningVer -= 0.425f;           
+            else
+            {   //lines 1, 3, 5...
+                posHor = initialPos.x;
+                for (int j = 0; j < 8; j++)
+                {
+                    Instantiate(tileTypeLos, new Vector3(posHor, posVer, -4), Quaternion.identity, lines[i].transform);
+                    posHor += widthTileLos;
+                }
+            }
+            posVer -= heightTileLos / 2;
         }
 
-        // starting tiles only
-
-        positioningHor = (-2.46f);
-        positioningVer = 2.026f;
-
-        for (int i = 0; i < 8; i++)
+        // start only, triangles
+        posHor = initialPos.x + (widthTileLos / 2);
+        for (int i = 0; i < 7; i++)
         {
-            Instantiate(tileTypeTri, new Vector3(positioningHor, positioningVer, -4), Quaternion.identity);
-            positioningHor += 0.804f;
+            Instantiate(tileTypeTri, new Vector3(posHor, 2.4f, -4), Quaternion.identity, lines[8].transform);
+            posHor += widthTileTri;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        SpriteRenderer tileLos = tileTypeLos.GetComponent<SpriteRenderer>();
+        float heightTileLos = tileLos.bounds.size.y;
+
+
+        if (lines[8].transform.childCount == 0)
+        {
+            while (control)
+            {
+                tilingGameObject.transform.position -= Vector3.up * heightTileLos;
+                control = false;
+            }
+            
+
         }
 
-        OLD GENERATOR*/
-
-
 
     }
 
-    void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         
-            
-        
     }
-
-    void LosTileLineSpawner() 
-    {
-        Instantiate(tileTypeLos, new Vector3(positioningHor, positioningVer, -4), Quaternion.identity);
-        positioningHor += 0.7f;
-    }
-
 }
+

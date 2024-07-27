@@ -6,8 +6,8 @@ public class TileManageTris : MonoBehaviour
 {
 
     public GameObject tile;
-    Vector3 pos;
     Rigidbody2D rb;
+    
 
     /*
           NW        NE
